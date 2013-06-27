@@ -56,4 +56,18 @@ describe User do
     end
   end
 
+  describe "when email address is already taken" do
+    before do
+      user_with_same_email = @user.dup
+      # A user is already created in memory with a lower case version of the email address
+      # Here we try to save an uppercase version of the same email address
+      # Our goal is to make is so that that would not be a valid situation.. because case doesn't matter in email addresses
+      user_with_same_email.email = @user.email.upcase
+      user_with_same_email.save
+    end
+
+    it { should_not be_valid }
+  end
+
+
 end
